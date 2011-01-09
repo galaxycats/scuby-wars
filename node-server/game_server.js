@@ -2,9 +2,9 @@ var app         = require('express').createServer(),
     io          = require('socket.io'), // for npm, otherwise use require('./path/to/socket.io')
     sys         = require('sys'),
     express     = require('express');
-    grasshopper = require('./lib/grasshopper');
+    scubyWars = require('./lib/scuby_wars');
 
-var game = grasshopper.getGame();
+var game = scubyWars.getGame();
 var socket = io.listen(app);
 var knownClients = [];
 
@@ -64,7 +64,7 @@ app.put("/players/:name", function(req, res) {
 });
 
 app.post("/reset", function(req, res) {
-  game = grasshopper.resetGame();
+  game = scubyWars.resetGame();
   res.writeHead(200, { "Content-Type" : "application/json" });
   res.write(JSON.stringify({ "ok" : true }));
   res.end();
@@ -82,8 +82,7 @@ socket.on('connection', function(client) {
 setInterval(function() {
   game.turn();
   socket.broadcast(game.world);
-  var jsonWorld = JSON.stringify(game.world);
   knownClients.forEach(function(res) {
-    res.write(jsonWorld);
+    res.write(game.jsonWorld());
   });
-}, grasshopper.WorldDefs.serverTick);
+}, scubyWars.WorldDefs.serverTick);

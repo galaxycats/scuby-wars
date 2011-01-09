@@ -19,7 +19,6 @@ var getUUID = function() {
   return uuid;
 }
 
-
 var WorldDefs = {
   size:           1000, // m
   serverTick:     100,   // ms
@@ -170,6 +169,15 @@ function Game() {
     });
     this.world.detectCollisions();
   };
+
+  this.jsonWorld = function() {
+    var worldForJson = {
+      players: this.world.players,
+      shotMap: this.world.shotMap,
+      worldDefs: WorldDefs
+    };
+    return JSON.stringify(worldForJson);
+  }
 }
 
 function Vector2D(x, y) {
