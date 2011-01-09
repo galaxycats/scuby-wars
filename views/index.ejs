@@ -1,0 +1,129 @@
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <title>Socket Server</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/raphael.min.js"></script>
+    <script src="/monster.js"></script>
+    <script> 
+      var socket = new io.Socket(); 
+      socket.on('connect', function() { console.log("Connection to server has been established.") }) 
+      socket.on('message', function(message) { updateWorld(message); }) 
+      socket.on('disconnect', function() { console.log("The connection has been closed!") }) 
+    </script> 
+  </head>
+  <body>
+    <script>
+      // Creates canvas 320 × 200 at 10, 50
+      var world_size = 1000;
+      var game_field = Raphael(10, 10, world_size, world_size);
+      var c = game_field.rect(0, 0, world_size, world_size);
+      var score_board = Raphael(1020, 10, 300, 1000);
+      // var c = score_board.rect(0, 0, 300, 1000);
+      var active_players = {};
+      var active_shots = {};
+      
+      //monster = new Monster("Andi", 50, 50, Raphael.rad(90));
+      //monster.move(100,100, Raphael.rad(180));
+      socket.connect();
+      
+      function Shot(x, y){
+        this.current_x = x;
+        this.current_y = y;
+        this.log_debug = false;
+        
+        this.move = function(x, y) {
+          this.animate_bullet(x,y);
+          this.set_current_values(x,y);
+          if(this.log_debug){console.log("shot moved to "+this.current_x+"/"+this.current_y);}
+        }
+        
+        this.set_current_values = function(x,y,direction) {
+          this.current_x = x;
+          this.current_y = y;
+          this.current_direction = direction;
+        }
+        
+        this.animate_bullet = function(x, y) {
+          this.bullet.animate({cx:x, cy:y}, 100);
+        }
+        
+        this.remove_from_canvas = function() {
+          this.bullet.remove();
+        }
+        
+        this.draw = function() {
+          this.bullet = game_field.circle(this.current_x, this.current_y, 2);
+          this.bullet.attr("fill", "black");
+        }
+        
+        this.draw();
+      }
+      
+      function updateWorld(message) {
+        message.players.forEach(function (player){
+          if(!active_players[player.id]){
+            active_players[player.id] = new Monster(player.name, player.position.x, player.position.y, Raphael.deg(player.direction) + 90);
+          } else {
+            if(player.shotDown){
+              active_players[player.id].shotDown();
+            } else {
+              active_players[player.id].move(player.position.x, player.position.y, Raphael.deg(player.direction) + 90);
+            }
+          }
+          active_players[player.id].score = player.score;
+        });
+        
+        var shots_alive = {};
+        for(shotId in message.shotMap) {
+          if(message.shotMap.hasOwnProperty(shotId)){
+            shots_alive[shotId] = true;
+            shot = message.shotMap[shotId];
+            if(!active_shots[shotId]){
+              active_shots[shotId] = new Shot(shot.position.x, shot.position.y);
+            } else {
+              active_shots[shotId].move(shot.position.x, shot.position.y);
+            }
+          }
+        }
+        
+        for (activeShotId in active_shots) {
+          if (active_shots.hasOwnProperty(activeShotId)) {
+            if(!shots_alive[activeShotId]){
+              active_shots[activeShotId].remove_from_canvas();
+              delete active_shots[activeShotId];
+            }
+          }
+        };
+        
+        
+        updateScoreBoard();
+      }
+      
+      function updateScoreBoard() {
+        var x = 10;
+        var y = 10;
+        var has_players = false;
+        for (p in active_players) if (active_players.hasOwnProperty(p)) { has_players = true; break; };
+        if(has_players) {
+          score_board.clear();
+          for(player_id in active_players) {
+            player = active_players[player_id];
+            r = score_board.rect(x,y,100,20);
+            r.attr({stroke: player.color});
+            t = score_board.text(x+50,y+10,player.name);
+            t.attr("fill", this.color);
+            t.attr("font", '14px "Arial"');
+            s = score_board.text(x+160,y+10,player.score);
+            s.attr("fill", this.color);
+            s.attr("font", '16px "Arial"');
+            
+            y += 25;
+          }
+        } else {
+          score_board.text(x+30, y+10, "no players connected yet",100,20);
+        }
+      }
+    </script>
+  </body>
+</html>
