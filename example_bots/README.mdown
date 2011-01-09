@@ -1,0 +1,7 @@
+= Examples
+
+== Executing the examples
+
+bundle install
+bundle exec "irb -r chaos.rb"
+>> Chaos.new("localhost:3000", "Chaos").join()

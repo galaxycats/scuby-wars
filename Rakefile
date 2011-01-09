@@ -10,9 +10,10 @@ begin
     gem.email = "andi@galaxycats.com"
     gem.homepage = "http://github.com/galaxycats/scuby-wars"
     gem.authors = ["Andi Bade", "Dirk Breuer", "Sebastian Cohnen"]
-    gem.add_dependency "yajl-ruby", ">= 0"
-    gem.add_dependency "httparty", ">= 0"
-    gem.add_dependency "activesupport", ">= 0"
+    gem.add_dependency "yajl-ruby", ">= 0.7.8"
+    gem.add_dependency "httparty", ">= 0.6.1"
+    gem.add_dependency "i18n", ">= 0.5.0"
+    gem.add_dependency "activesupport", ">= 3.0.3"
     # gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end

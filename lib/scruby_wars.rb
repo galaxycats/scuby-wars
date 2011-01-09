@@ -1,10 +1,10 @@
-require 'activesupport'
 require 'yajl'
 require 'yajl/http_stream'
 require 'httparty'
+require 'active_support/inflector'
 
 module ScubyWars
   
 end
 
-require 'client'
+require 'scuby_wars/client'

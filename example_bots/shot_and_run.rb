@@ -1,3 +1,5 @@
+require "scuby-wars"
+
 class ShotAndRun < ScubyWars::Client
   
   def think
