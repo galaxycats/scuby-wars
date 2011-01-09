@@ -10,7 +10,7 @@ begin
     gem.email = "andi@galaxycats.com"
     gem.homepage = "http://github.com/galaxycats/scuby-wars"
     gem.authors = ["Andi Bade", "Dirk Breuer", "Sebastian Cohnen"]
-    gem.add_dependency "yajl", ">= 0"
+    gem.add_dependency "yajl-ruby", ">= 0"
     gem.add_dependency "httparty", ">= 0"
     gem.add_dependency "active_support", ">= 0"
     # gem.add_development_dependency "thoughtbot-shoulda", ">= 0"

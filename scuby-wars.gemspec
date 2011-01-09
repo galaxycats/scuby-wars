@@ -17,10 +17,13 @@ Gem::Specification.new do |s|
      "README.rdoc"
   ]
   s.files = [
-    "LICENSE",
+    ".gitignore",
+     "Gemfile",
+     "LICENSE",
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "example_bots/shot_and_run.rb",
      "lib/scruby_wars.rb",
      "lib/scuby-wars.rb",
      "lib/scuby_wars/client.rb",
@@ -31,7 +34,8 @@ Gem::Specification.new do |s|
      "node-server/public/monster.js",
      "node-server/public/panzer.png",
      "node-server/public/raphael.min.js",
-     "node-server/views/index.ejs"
+     "node-server/views/index.ejs",
+     "scuby-wars.gemspec"
   ]
   s.homepage = %q{http://github.com/galaxycats/scuby-wars}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -44,16 +48,16 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<yajl>, [">= 0"])
+      s.add_runtime_dependency(%q<yajl-ruby>, [">= 0"])
       s.add_runtime_dependency(%q<httparty>, [">= 0"])
       s.add_runtime_dependency(%q<active_support>, [">= 0"])
     else
-      s.add_dependency(%q<yajl>, [">= 0"])
+      s.add_dependency(%q<yajl-ruby>, [">= 0"])
       s.add_dependency(%q<httparty>, [">= 0"])
       s.add_dependency(%q<active_support>, [">= 0"])
     end
   else
-    s.add_dependency(%q<yajl>, [">= 0"])
+    s.add_dependency(%q<yajl-ruby>, [">= 0"])
     s.add_dependency(%q<httparty>, [">= 0"])
     s.add_dependency(%q<active_support>, [">= 0"])
   end
