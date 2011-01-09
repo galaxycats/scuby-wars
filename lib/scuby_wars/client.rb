@@ -85,12 +85,16 @@ module ScubyWars
       @player[:actions][:fire] = true
     end
   
-    def fire?
+    def fireing?
       @player[:actions][:fire]
     end
   
     def cease_fire
       @player[:actions][:fire] = false
+    end
+    
+    def stop_fireing
+      cease_fire
     end
 
     %w(run stop turn_left turn_right stop_turning fire cease_fire).each do |meth_name|

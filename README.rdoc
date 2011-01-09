@@ -1,6 +1,37 @@
 = scuby-wars
 
-Description goes here.
+Scuby-Wars is a little game where you have to implement your own AI-bots who will fight on a server against each other.
+
+== How to write your own Bot
+
+You have to implement a class which inherits from ScubyWars::Client
+
+  class AndisBot < ScubyWars::Client
+  end
+
+now you have to implement on method called think
+  
+  class AndisBot < ScubyWars::Client
+    
+    def think
+      # do your intelligent stuff here
+    end
+    
+  end
+  
+in your instance you can access the attribute world which has all informations about the world. And there are several methods you can call to control your bot:
+  
+  run
+  stop
+  fire
+  cease_fire
+  turn_left
+  turn_right
+  stop_turning
+  
+== Connect your bot
+
+  YourBot.new("server.address:port", "YourName").join()
 
 == Note on Patches/Pull Requests
  

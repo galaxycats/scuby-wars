@@ -1,0 +1,2 @@
+# gem "scuby-wars", :git => "git://github.com/galaxycats/scuby-wars.git"
+gem "scuby-wars", :path => "/Users/andi/galaxycats/projects/tondorf/scuby-wars"
