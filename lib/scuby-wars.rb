@@ -1,1 +1,1 @@
-require "scruby_wars"
+require "scuby_wars"

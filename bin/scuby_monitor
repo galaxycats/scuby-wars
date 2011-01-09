@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+#
+$:.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
+
+require 'rubygems'
+require 'scuby_wars'
+require 'scuby_wars/client'
+
+require 'optparse'
+require 'pp'
+
+options = {
+  :port => 3000,
+  :host => "127.0.0.1"
+}
+OptionParser.new do |opts|
+  opts.banner = "Usage: scuby_monitor [options]"
+
+  opts.on("-h", "--host", "The host of the game server to monitor [DEFAULT: 127.0.0.1]") do |host|
+    options[:host] = host
+  end
+
+  opts.on("-p", "--port", "The port of the game server to monitor [DEFAULT: 3000]") do |port|
+    options[:port] = port
+  end
+end.parse!
+
+Yajl::HttpStream.get(URI.parse("http://#{options[:host]}:#{options[:port]}/world")) do |frame|
+  pp frame
+end
+
