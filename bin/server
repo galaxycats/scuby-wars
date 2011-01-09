@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+cd node-server && node game_server.js $1 $2

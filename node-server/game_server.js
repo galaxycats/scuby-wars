@@ -8,6 +8,23 @@ var game = scubyWars.getGame();
 var socket = io.listen(app);
 var knownClients = [];
 
+var port;
+var host;
+if (process.argv[2] && process.argv[3]) { 
+  host = process.argv[2];
+  port = process.argv[3];
+} else if (process.argv[2] && !process.argv[3]) {
+  host = "0.0.0.0";
+  port = process.argv[2];
+} else {
+  host = "0.0.0.0";
+  port = 3000;
+};
+
+sys.puts("** Starting the ScubyWars game server ...")
+sys.puts("** Listening on " + host + ":" + port + " ...")
+sys.puts("** Everything seems up and running so far. Enjoy!")
+
 app.configure(function() {
   app.use(app.router);
   app.use(express.staticProvider(__dirname + '/public'));
@@ -21,18 +38,18 @@ app.get("/", function(req, res) {
 
 app.get("/world", function(req, res) {
   res.writeHead(200, { "Content-Type" : "application/json"});
-  sys.puts("Registered client to consume world data.");
+  console.log("Registered client to consume world data.");
   knownClients.push(res);
 });
 
 app.post("/players/:name", function(req, res) {
   try {
     var player = game.addPlayer({ip: req.headers.ip, name: req.params.name})
-    sys.puts("Added player: " + player.name);
+    console.log("Added player: " + player.name);
     res.writeHead(200, { "Content-Type" : "application/json"});
     res.write(JSON.stringify({ "ok" : true }));
   } catch(m) {
-    sys.puts(m);
+    console.log(m);
     res.writeHead(409, { "Content-Type" : "application/json"});
     res.write(JSON.stringify({ "error" : m }));
   }
@@ -73,7 +90,7 @@ app.post("/reset", function(req, res) {
 app.listen(3000);
 
 socket.on('connection', function(client) { 
-  sys.puts("A new spectator just connected. Welcome it!")
+  console.log("A new spectator just connected. Welcome it!")
 
   client.on('message', function(message) {});
   client.on('disconnect', function() {});
