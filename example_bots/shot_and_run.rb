@@ -7,4 +7,4 @@ class ShotAndRun < ScubyWars::Client
   
 end
 
-AndisBot.new("localhost:3000", "Andi").join()
+# ShotAndRun.new("localhost:3000", "ShotAndRun").join()
