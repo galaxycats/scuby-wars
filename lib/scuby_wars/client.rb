@@ -85,8 +85,8 @@ module ScubyWars
       @player[:actions][:fire] = true
     end
   
-    def fire?
-      @player[:actions][:fire]
+    def fireing?
+      fire?
     end
   
     def cease_fire
